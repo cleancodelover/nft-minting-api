@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model NFT {
+  id            Int      @id @default(autoincrement())
+  name          String?
+  description   String?
+  status        String
+  logoUrl       String
+  walletAddress String
+  createdAt     DateTime @default(now())
+
+  @@map("nfts") // Maps the model to the 'addresses' table
+}
