@@ -21,6 +21,6 @@ export class GetNFT {
   
     @ApiProperty()
     @IsNotEmpty()
-    walletAddress: string;
+    nftAddress: string;
   }
   

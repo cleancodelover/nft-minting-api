@@ -13,7 +13,7 @@ model NFT {
   description   String?
   status        String
   logoUrl       String
-  walletAddress String
+  nftAddress    String?
   createdAt     DateTime @default(now())
 
   @@map("nfts") // Maps the model to the 'addresses' table

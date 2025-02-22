@@ -1,19 +1,20 @@
+//#region Imports
 import { BadRequestException, ForbiddenException, HttpException, HttpStatus, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { ApiResponseType } from "src/shared/types/global";
+import { Response } from 'express';
+//#endregion
 
 @Injectable()
 export class HttpResponseHelper {
   static respondWith200Ok<T> (data: ApiResponseType<T>) {
-    throw new HttpException(
-      {
+    
+    return {
         success: true,
         message: data.message,
         count: data.count ?? 0,
         error: null,
         data: data.data,
-      },
-      HttpStatus.OK,
-    );
+      }
   };
   static respondWith400BadRequest<T> (data: ApiResponseType<T>) {
     throw new BadRequestException({
@@ -56,15 +57,12 @@ export class HttpResponseHelper {
     });
   };
   static respondWith201Created<T> (data: ApiResponseType<T>) {
-    throw new HttpException(
-      {
+   return {
         success: true,
         message: data.message,
         error: null,
         data: data.data,
-      },
-      HttpStatus.CREATED,
-    );
+      }
   };
   static respondWith500InternalServerError<T> (data: ApiResponseType<T>) {
     throw new InternalServerErrorException({
@@ -75,14 +73,11 @@ export class HttpResponseHelper {
     });
   };
   static respondWith204NoContent<T> (data: ApiResponseType<T>) {
-    throw new HttpException(
-      {
+    return {
         success: false,
         message: data.message,
         error: null,
         data: data,
-      },
-      HttpStatus.NO_CONTENT,
-    );
+      };
   };
 }

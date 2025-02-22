@@ -9,15 +9,16 @@ export class PostNFT {
     name: string;
   
     @ApiProperty()
-    description: string;
+    @IsString()
+    description?: string;
   
     @ApiProperty()
     @IsNotEmpty({ message: 'NFT url is required.' })
-    @IsUrl({ require_host: true,  }, { message: 'Logo url must be a valid NFT Logo Url.'})
+    @IsUrl({ require_host: true,  }, { message: 'Logo url must be a valid Url.'})
     logoUrl: string;
   
     @ApiProperty()
-    @IsNotEmpty({ message: 'Wallet address is required.' })
-    walletAddress: string;
+    @IsNotEmpty({ message: 'NFT address is required.' })
+    nftAddress: string;
   }
   

@@ -1,32 +1,58 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, BadRequestException } from '@nestjs/common';
-import { Response } from 'express';
+//#region Imports
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Inject } from '@nestjs/common';
+import { Request, Response } from 'express';
+import { Logger } from 'winston';
+//#endregion
 
 @Catch()
 export class GlobalExceptionsFilter implements ExceptionFilter {
+  constructor(@Inject('winston') private readonly logger: Logger) {}
+
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
+    const request = ctx.getRequest<Request>();
+
+    const timestamp = new Date().toISOString();
+    
+    const ip = (request.headers['x-forwarded-for'] as string) || request.connection?.remoteAddress || 'Unknown IP';
+
+    const method = request.method;
+    const url = request.originalUrl || request.url;
 
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
-    let message = 'Internal server error';
+    let message = 'An unexpected error occurred';
+    let error = null;
 
-    // Check if exception is an instance of HttpException (like BadRequestException)
     if (exception instanceof HttpException) {
       status = exception.getStatus();
-      const errorResponse = exception.getResponse();
+      const exceptionResponse = exception.getResponse();
 
-      // Handle Validation Errors
-      if (exception instanceof BadRequestException && typeof errorResponse === 'object' && errorResponse['message']) {
-        message = errorResponse['message'].join(', '); // Convert multiple errors into a single message
+      if (typeof exceptionResponse === 'object' && exceptionResponse !== null) {
+        message = (exceptionResponse as any).message || message;
+        error = (exceptionResponse as any).error || null;
       } else {
-        message = errorResponse['message'] || 'An error occurred';
+        message = exceptionResponse;
       }
     }
 
+    // Log error with Winston
+    this.logger.error({
+      timestamp,
+      level: 'error',
+      message,
+      error: exception.stack || error,
+      status,
+      method,
+      url,
+      ip,
+    });
+
+    // Send error response to user
     response.status(status).json({
       success: false,
       status,
-      message,
+      message: Array.isArray(message) ? message.join(', ') : message,
       error: null,
       data: null,
     });

@@ -21,7 +21,7 @@ import { IsOptional, IsString } from "class-validator";
     readonly searchQuery?: string;
 
     constructor(data?: Partial<QueryParams>) {
-      this.page = data?.page ? parseInt(data.page.toString(), 10) : 0;
+      this.page = data?.page ? parseInt(data.page.toString(), 10) : 1;
       this.size = data?.size ? parseInt(data.size.toString(), 10) : 20;
       this.status = data?.status ? data.status : '';
       this.searchQuery = data?.searchQuery ? data.searchQuery : '';
