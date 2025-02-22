@@ -28,7 +28,7 @@ export class NFTService {
       } as unknown as ApiResponseType<GetNFT>;
     }
 
-    const { description, logoUrl, name, nftAddress } = reqBody;
+    const { description, tokenId, logoUrl, name, nftAddress } = reqBody;
 
     try {
       const response = await this.prisma.nFT.create({
@@ -37,6 +37,7 @@ export class NFTService {
           logoUrl,
           name,
           nftAddress,
+          tokenId,
           status: NFT_STATUSES.AVAILABLE,
         },
         select: {
@@ -45,6 +46,7 @@ export class NFTService {
           logoUrl: true,
           name: true,
           nftAddress: true,
+          tokenId:true,
           status: true,
           createdAt: true,
         },

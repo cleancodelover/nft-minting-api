@@ -16,6 +16,9 @@ export class GetNFT {
     description: string;
   
     @ApiProperty()
+    tokenId: number;
+  
+    @ApiProperty()
     @IsNotEmpty()
     logoUrl: string;
   

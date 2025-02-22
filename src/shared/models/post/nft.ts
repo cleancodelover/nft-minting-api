@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsInt, IsNotEmpty, IsString, IsUrl } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString, IsUrl } from "class-validator";
 
 export class PostNFT {
     
@@ -11,6 +11,11 @@ export class PostNFT {
     @ApiProperty()
     @IsString()
     description?: string;
+  
+    @ApiProperty()
+    @IsNumber()
+    @IsNotEmpty({message:"Token ID is not provided. Try again."})
+    tokenId?: number;
   
     @ApiProperty()
     @IsNotEmpty({ message: 'NFT url is required.' })
