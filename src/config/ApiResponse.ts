@@ -21,7 +21,6 @@ function getNestedModelsDynamic(model: Type<any>, currentDepth = 0, maxDepth = 2
   return nestedModels;
 }
 
-
 export const ApiResponseConfig = <TModel extends Type<any>>(
   model: TModel,
   status = 200,

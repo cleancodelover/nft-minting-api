@@ -94,6 +94,7 @@ export class NFTService {
           logoUrl: true,
           name: true,
           nftAddress: true,
+          tokenId:true,
           status: true,
           createdAt: true,
         },
@@ -124,13 +125,6 @@ export class NFTService {
   async getNFTs(queryParams: QueryParams): Promise<ApiResponseType<GetNFT[]>> {
     const { searchQuery, page, size } = queryParams;
 
-    console.log(
-      'searchQuery, page, size :>>>>>>>>>>>>>>>',
-      searchQuery,
-      page,
-      size,
-    );
-
     try {
       const whereClause: any = searchQuery
         ? {
@@ -158,6 +152,7 @@ export class NFTService {
             logoUrl: true,
             name: true,
             nftAddress: true,
+            tokenId:true,
             status: true,
             createdAt: true,
           },
