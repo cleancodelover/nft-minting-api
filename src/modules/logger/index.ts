@@ -19,7 +19,7 @@ import * as winston from 'winston';
 
         // File Transport (for saving error logs)
         new winston.transports.File({
-          // filename: '../../errorlogs/errors.log',
+          filename: '../../errorlogs/errors.log',
           level: 'error',
           format: winston.format.combine(
             winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),  // Set timestamp format
