@@ -12,8 +12,9 @@ async function bootstrap() {
   app.enableVersioning({
     type: VersioningType.URI, // or VersioningType.HEADER / MEDIA_TYPE
   });
+
   app.enableCors({
-    origin: 'https://nft-minting-ui-tfxg.onrender.com', // Allow specific origin
+    origin: ['https://nft-minting-ui-tfxg.onrender.com', 'http://localhost:3001'], // Allow specific origin
     credentials: true, // Allow cookies, authentication headers
   });
   // Use Helmet to secure headers
